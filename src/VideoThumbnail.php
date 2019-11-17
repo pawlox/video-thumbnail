@@ -42,13 +42,9 @@ class VideoThumbnail {
         $this->width = $width;
         $this->height = $height;
 
-        try {
-            $this->create();
-            $this->thumbnail();
-            $this->resizeCropImage($this->width, $this->height, $this->fullFile, $this->fullFile);
-        } catch (Exception $e) {
-            Log::error($e->getMessage());
-        }
+        $this->create();
+        $this->thumbnail();
+        $this->resizeCropImage($this->width, $this->height, $this->fullFile, $this->fullFile);
 
         return $this;
     }

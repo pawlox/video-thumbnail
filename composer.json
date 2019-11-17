@@ -16,7 +16,8 @@
         }
     ],
     "require": {
-        "php-ffmpeg/php-ffmpeg": "^0.14.0"
+        "php-ffmpeg/php-ffmpeg": "^0.14.0",
+        "ext-gd": "*"
     },
     "require-dev": {
         "mockery/mockery": "^1.0",

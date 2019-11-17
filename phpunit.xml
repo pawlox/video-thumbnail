@@ -9,6 +9,11 @@
          stopOnFailure="false"
          bootstrap="./vendor/autoload.php"
 >
+    <php>
+        <env name="FFMPEG" value="ffmpeg"/>
+        <env name="FFPROBE" value="ffprobe"/>
+    </php>
+
     <testsuites>
         <testsuite name="Package Test Suite">
             <directory suffix=".php">./tests</directory>
