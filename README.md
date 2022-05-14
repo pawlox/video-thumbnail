@@ -2,6 +2,10 @@
 
 Simple package for generating video thumbnail in Laravel using FFMpeg.
 
+## Support my work
+
+If you want to support my work in other way than contributing the code itself, you can always pass me some small donation :beer: at https://paypal.me/pawlox :)
+
 ## Installation
 
 Composer install:
