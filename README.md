@@ -35,6 +35,13 @@ FFMPEG="/usr/bin/ffmpeg"
 FFPROBE="/usr/bin/ffprobe"
 ```
 
+## Versions
+
+| Laravel              | pawlox/video-thumbnail |
+|----------------------|------------------------|
+| < ^5.8               | ^1.*                   |
+| \>= ^5.8 and <= ^6.* | ^2.*                   |
+
 ## Usage
 
 ```
