@@ -6,8 +6,7 @@
 
 namespace Pawlox\VideoThumbnail;
 
-use Illuminate\Http\Request;
-use App\Http\Requests;
+use FFMpeg\Media\Video;
 use FFMpeg\FFMpeg;
 use FFMpeg\Coordinate;
 use Exception;
@@ -20,23 +19,30 @@ use Illuminate\Support\Facades\Log;
  */
 class VideoThumbnail {
 
-    protected $FFMpeg = NULL;
-    protected $videoObject = NULL;
-    protected $videoURL = NULL;
-    protected $storageURL = NULL;
-    protected $thumbName = NULL;
-    protected $fullFile = NULL;
-    protected $height = 240;
-    protected $width = 320;
-    protected $screenShotTime = 1;
+    protected ?FFMpeg $FFMpeg = NULL;
+    protected ?Video $videoObject = NULL;
+    protected ?string $videoURL = NULL;
+    protected ?string $storageURL = NULL;
+    protected ?string $thumbName = NULL;
+    protected ?string $fullFile = NULL;
+    protected int $height = 240;
+    protected int $width = 320;
+    protected int $screenShotTime = 1;
 
-    public function createThumbnail($videoUrl, $storageUrl, $fileName, $second, $width = 640, $height = 480) {
+    public function createThumbnail(
+        string $videoUrl,
+        string $storageUrl,
+        string $fileName,
+        int $second,
+        int $width = 640,
+        int $height = 480
+    ): VideoThumbnail {
         $this->videoURL = $videoUrl;
-        
+
         $this->storageURL = $storageUrl;
-        $this->thumbName = $fileName;        
+        $this->thumbName = $fileName;
         $this->fullFile = "{$this->storageURL}/{$this->thumbName}";
-        
+
         $this->screenShotTime = $second;
 
         $this->width = $width;
@@ -53,7 +59,7 @@ class VideoThumbnail {
         return $this;
     }
 
-    public function overlay($overlayPath, $name) {
+    public function overlay(string $overlayPath, string $name) {
         try {
             $water_mark = "{$overlayPath}/{$name}";
 
@@ -71,11 +77,17 @@ class VideoThumbnail {
         }
     }
 
-    public function resizeCropImage($max_width, $max_height, $source_file, $dst_dir, $quality = 80) {
-        $imgsize = getimagesize($source_file);
-        $width = $imgsize[0];
-        $height = $imgsize[1];
-        $mime = $imgsize['mime'];
+    public function resizeCropImage(
+        int $max_width,
+        int $max_height,
+        string $source_file,
+        string $dst_dir,
+        int $quality = 80
+    ): bool {
+        $imgSize = getimagesize($source_file);
+        $width = $imgSize[0];
+        $height = $imgSize[1];
+        $mime = $imgSize['mime'];
 
         switch ($mime) {
             case 'image/gif':
@@ -119,31 +131,42 @@ class VideoThumbnail {
 
         $image($dst_img, $dst_dir, $quality);
 
-        if ($dst_img)
+        if ($dst_img) {
             imagedestroy($dst_img);
-        if ($src_img)
+        }
+
+        if ($src_img) {
             imagedestroy($src_img);
+        }
+
+        return true;
     }
 
-    private function create() {
+    private function create(): ?Video {
         $this->FFMpeg = FFMpeg::create([
             'ffmpeg.binaries'  => config('video-thumbnail.binaries.ffmpeg'),
             'ffprobe.binaries' => config('video-thumbnail.binaries.ffprobe')
         ]);
+
         $this->videoObject = $this->FFMpeg->open($this->videoURL);
+
         return $this->videoObject;
     }
 
-    private function resize() {
+    protected function resize(): ?Video
+    {
         $this->videoObject
                 ->filters()
                 ->resize(new Coordinate\Dimension($this->width, $this->height))
                 ->synchronize();
+
         return $this->videoObject;
     }
 
-    private function thumbnail() {
+    private function thumbnail(): ?Video
+    {
         $this->videoObject->frame(Coordinate\TimeCode::fromSeconds($this->screenShotTime))->save($this->fullFile);
+
         return $this->videoObject;
     }
 

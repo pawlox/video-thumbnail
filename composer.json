@@ -16,17 +16,24 @@
         }
     ],
     "require": {
-        "php-ffmpeg/php-ffmpeg": "^0.11.0"
+        "php": ">=7.4",
+        "ext-gd": "*",
+        "illuminate/support": "^5.8|^6.0",
+        "php-ffmpeg/php-ffmpeg": "^0.13.0"
     },
     "autoload": {
         "psr-4": {
             "Pawlox\\VideoThumbnail\\": "src/"
         }
     },
-    "minimum-stability": "dev"
+    "autoload-dev": {
+        "psr-4": {
+            "Pawlox\\VideoThumbnail\\Tests\\": "tests"
+        }
+    },
+    "minimum-stability": "dev",
+    "require-dev": {
+        "orchestra/testbench": "~4.0",
+        "phpunit/phpunit": "^8"
+    }
 }
-
-
-
-
-

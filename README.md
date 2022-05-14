@@ -1,6 +1,6 @@
 ## Video Thumbnail
 
-Simple package for generating video thumbnail in Laravel 5 using FFMpeg.
+Simple package for generating video thumbnail in Laravel using FFMpeg.
 
 ## Installation
 
@@ -38,11 +38,18 @@ FFPROBE="/usr/bin/ffprobe"
 ## Usage
 
 ```
-VideoThumbnail::createThumbnail($videoUrl, $storageUrl, $fileName, $second, $width = 640, $height = 480);
+VideoThumbnail::createThumbnail(
+    $videoUrl, 
+    $storageUrl, 
+    $fileName, 
+    $second, 
+    $width = 640, 
+    $height = 480
+);
 ```
 
-**$videoUrl** - path to video file,  
-**$storageUrl** - path where the thumbnail should be save,  
+**$videoUrl** - absolute path to video file,  
+**$storageUrl** - absolute path where the thumbnail should be save,  
 **$fileName** - name of thumbnail file,  
 **$second** - from which second of the movie thumbnail should be created,  
 **$width** [Optional] - width (in pixels) of the thumbnail (default 640),  
@@ -51,5 +58,12 @@ VideoThumbnail::createThumbnail($videoUrl, $storageUrl, $fileName, $second, $wid
 ## Example
 
 ```
-VideoThumbnail::createThumbnail(public_path('files/movie.mp4'), public_path('files/thumbs/'), 'movie.jpg', 2, 1920, 1080);
+VideoThumbnail::createThumbnail(
+    public_path('files/movie.mp4'), 
+    public_path('files/thumbs/'), 
+    'movie.jpg', 
+    2, 
+    1920, 
+    1080
+);
 ```
