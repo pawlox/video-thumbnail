@@ -2,6 +2,7 @@
 
 namespace Pawlox\VideoThumbnail\Tests;
 
+use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
 use Pawlox\VideoThumbnail\VideoThumbnailServiceProvider;
 
 class TestCase extends \Orchestra\Testbench\TestCase
@@ -20,6 +21,8 @@ class TestCase extends \Orchestra\Testbench\TestCase
 
     protected function getEnvironmentSetUp($app)
     {
-        // perform environment setup
+        $app->useEnvironmentPath(__DIR__.'/..');
+        $app->bootstrapWith([LoadEnvironmentVariables::class]);
+        parent::getEnvironmentSetUp($app);
     }
 }
